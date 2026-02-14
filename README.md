@@ -96,7 +96,7 @@
 - 《高效能程序员的修炼》
 - 《软技能：代码之外的生存指南》
 - 《深度工作》
-- 《提问的智慧》（_How To Ask Questions The Smart Way_）—— 学会高效提问，更快获得帮助，提升解决问题的能力
+- 《提问的智慧》（_How To Ask Questions The Smart Way_）
 
 ---
 
