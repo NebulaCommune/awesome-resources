@@ -1,0 +1,377 @@
+\documentclass[12pt,a4paper]{article}
+
+% ======================== 基础宏包 ========================
+\usepackage{ctex}          % 中文支持
+\usepackage{amsmath}       % 数学公式
+\usepackage{amssymb}       % 数学符号
+\usepackage{amsfonts}      % 数学字体
+\usepackage{geometry}      % 页面设置
+\usepackage{enumitem}      % 列表格式
+\usepackage{booktabs}      % 专业表格
+\usepackage{multirow}      % 表格跨行
+\usepackage{xcolor}        % 扩展颜色
+\usepackage{ragged2e}      % 文本对齐
+\usepackage{bm}            % 加粗向量
+\usepackage{upgreek}       % 希腊字母正体
+\usepackage{titlesec}      % 标题格式（专业方案）
+\usepackage{titletoc}      % 目录格式（仅用这一个包，避免冲突）
+\usepackage[bookmarks=true,colorlinks=true]{hyperref}  % 超链接/目录
+
+% ======================== 全局配置 ========================
+% 页面设置
+\geometry{
+    a4paper,
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+% 超链接样式
+\hypersetup{
+    linkcolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    pdfborder={0 0 0},
+    bookmarksnumbered=true,
+    bookmarksopen=false
+}
+
+% 公式编号（章节级）
+\numberwithin{equation}{section}
+
+% 列表格式优化
+\setlist{
+    itemsep=0.2ex,
+    parsep=0.5ex,
+    leftmargin=2em,
+    labelsep=0.8em
+}
+
+% ======================== 标题格式（专业版） ========================
+% 使用 titlesec 包定义标题
+\titleformat{\section}
+  {\Large\bfseries\color{blue}}
+  {\thesection.}
+  {1em}
+  {}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{cyan}}
+  {\thesubsection.}
+  {1em}
+  {}
+
+\titleformat{\subsubsection}
+  {\bfseries\color{teal}}
+  {\thesubsubsection.}
+  {1em}
+  {}
+
+% 调整标题间距
+\titlespacing*{\section}{0pt}{1.5ex plus 1ex minus .2ex}{1ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1ex plus .5ex minus .2ex}{0.8ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{0.8ex plus .3ex minus .2ex}{0.5ex plus .2ex}
+
+% ======================== 目录格式（纯 titletoc 实现，无冲突） ========================
+% 1. 美化目录标题（降低字体大小，解决Overfull \vbox）
+\renewcommand{\contentsname}{%
+    \Large\bfseries\color{blue!80!black} 目录  % 从Huge改为Large，避免垂直溢出
+}
+
+% 2. 调整目录整体间距（用titletoc的\vspace实现）
+\makeatletter
+\renewcommand{\tableofcontents}{%
+    \section*{\contentsname}%
+    \vspace{-1em}  % 替代\cftbeforetoctitleskip=-1em
+    \@starttoc{toc}%
+    \vspace{2em}   % 替代\cftaftertoctitleskip=2em
+}
+\makeatother
+
+% 3. 精细化设置各级目录样式（纯titletoc）
+\titlecontents{section}
+  [0em]                                  % 整体缩进
+  {\large\bfseries\vspace{0.5ex}}        % 字体样式 + 条目上方间距
+  {\thecontentslabel\quad}               % 编号样式
+  {}                                     % 无编号时的样式
+  {\titlerule*[0.5pc]{.}\contentspage}   % 引导线 + 页码
+
+\titlecontents{subsection}
+  [2.2em]                                % 缩进（匹配一级编号宽度）
+  {\vspace{0.3ex}}                       % 条目上方间距
+  {\thecontentslabel\quad}               % 编号样式
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+\titlecontents{subsubsection}
+  [4.4em]                                % 缩进（匹配二级编号宽度）
+  {\vspace{0.2ex}\small}                 % 间距 + 字体稍小（替代\cftsubsubsecafterpnumskip）
+  {\thecontentslabel\quad}               % 编号样式
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+% ======================== 文档内容 ========================
+\title{\Huge\bfseries 大学物理核心公式与考点汇总}
+\author{浮萍}  % 新增作者：浮萍
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+% ======================== 第一章：热学 ========================
+\section{热学}
+\subsection{理想气体基本公式}
+\begin{itemize}
+    \item 理想气体物态方程：$pV=\frac{m}{M}RT$
+    \item 压强的微观表达式：$p = \frac{2}{3} n \left( \frac{1}{2} m_0 \overline{v^2} \right) = \frac{2}{3} n \overline{\varepsilon}_{\text{kt}}$（$n$为单位体积分子数）
+    \item 物态方程另一形式：$p = nkT$（$k=\frac{R}{N_A}$为玻尔兹曼常量）
+\end{itemize}
+
+\subsection{速率分布函数}
+\begin{itemize}
+    \item 速率分布函数定义：$\frac{\mathrm{d}N}{N_0} = f(v)\mathrm{d}v$ 或 $f(v) = \frac{\mathrm{d}N}{N_0 \mathrm{d}v}$
+    \item 麦克斯韦速率分布函数：
+        $$f(v) = 4\pi \left( \frac{m_0}{2\pi kT} \right)^{\frac{3}{2}} e^{-\frac{m_0 v^2}{2kT}} v^2$$
+    \item 归一化条件：$\int_{0}^{\infty} f(v) \mathrm{d}v = 1$
+\end{itemize}
+
+\subsection{三种统计速率}
+\begin{itemize}
+    \item 最概然速率：$v_{\text{p}} = \sqrt{\frac{2kT}{m_0}} = \sqrt{\frac{2RT}{M}}$
+    \item 平均速率：$\bar{v} = \int_{0}^{\infty} v f(v) \mathrm{d}v = \sqrt{\frac{8kT}{\pi m_0}} = \sqrt{\frac{8RT}{\pi M}}$
+    \item 方均根速率：$\sqrt{\overline{v^2}} = \sqrt{\frac{3kT}{m_0}} = \sqrt{\frac{3RT}{M}}$（其中$\overline{v^2} = \int_{0}^{\infty} v^2 f(v) \mathrm{d}v = \frac{3kT}{m_0}$）
+\end{itemize}
+
+\subsection{分子动能与自由度}
+\begin{itemize}
+    \item 平均平动动能：$\overline{\varepsilon}_{\text{kt}} = \frac{1}{2} m_0 \overline{v^2}=\frac{3}{2}kT$
+    \item 刚性分子自由度：
+        \begin{table}[htbp]
+            \centering
+            \renewcommand{\arraystretch}{1.2}
+            \begin{tabular}{@{}c|c|c|c@{}}
+                \toprule
+                分子种类 & 平动自由度 & 转动自由度 & 总自由度$i$ \\
+                \midrule
+                单原子分子 & 3 & 0 & 3 \\
+                刚性双原子分子 & 3 & 2 & 5 \\
+                刚性多原子分子 & 3 & 3 & 6 \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+    \item 分子平均动能：$\overline{\varepsilon}_{\text{k}} = \frac{i}{2} kT$（$i$为总自由度）
+    \item 理想气体内能：$E=\frac{m}{M}\frac{i}{2}RT$
+\end{itemize}
+
+\subsection{平均自由程与碰撞频率}
+\begin{itemize}
+    \item 平均自由程：$\overline{\lambda} = \frac{\bar{v}}{\bar{z}}$
+    \item 碰撞截面：$\sigma = \pi d^2$（$d$为分子直径）
+    \item 平均碰撞频率：$\bar{z} = \sqrt{2} \sigma \bar{v} n = \sqrt{2} \pi d^2 \bar{v} n$（$\bar{u}=\sqrt{2}\bar{v}$为平均相对速率）
+    \item 平均自由程（常用）：$\overline{\lambda} = \frac{1}{\sqrt{2} \sigma n} = \frac{1}{\sqrt{2} \pi d^2 n}=\frac{kT}{\sqrt{2}\pi d^2p}$
+\end{itemize}
+
+\subsection{热力学过程}
+\subsubsection{热容相关}
+\begin{itemize}
+    \item 摩尔定容热容：$C_{V,\text{m}} = \left( \frac{\text{d}Q}{\text{d}T} \right)_V = \frac{\text{d}E}{\text{d}T} = \frac{i}{2} R$
+    \item 摩尔定压热容：$C_{p,\text{m}} = \left( \frac{\text{d}Q}{\text{d}T} \right)_p = \frac{\text{d}E}{\text{d}T} + R$
+    \item 迈耶公式：$C_{p,\text{m}} = C_{V,\text{m}} + R$
+    \item 比热容比：$\gamma = \frac{C_{p,\text{m}}}{C_{V,\text{m}}}$
+\end{itemize}
+
+\subsubsection{等值过程}
+\begin{itemize}
+    \item 等体过程：
+        $$Q_V = \Delta E = \frac{m}{M} C_{V,\text{m}} (T_2 - T_1)$$
+    \item 等压过程：
+        $$W = p(V_2 - V_1), \quad \Delta E = \frac{m}{M} C_{V,\text{m}} (T_2 - T_1)$$
+    \item 等温过程：
+        $$W = Q_T = \frac{m}{M}RT\ln\frac{V_2}{V_1} = \frac{m}{M}RT\ln\frac{p_1}{p_2}$$
+    \item 绝热过程（泊松公式）：
+        $$TV^{\gamma-1} = C_2, \quad \frac{p^{\gamma-1}}{T^\gamma} = C_3, \quad pV^\gamma = C_1$$
+        $$W = \frac{1}{\gamma-1}(p_1 V_1 - p_2 V_2)$$
+        绝热线斜率：$\left( \frac{\mathrm{d}p}{\mathrm{d}V} \right)_Q = -\gamma \frac{p}{V}$，等温线斜率：$\left( \frac{\mathrm{d}p}{\mathrm{d}V} \right)_T = -\frac{p}{V}$
+\end{itemize}
+
+\subsection{热机与熵}
+\begin{itemize}
+    \item 热机效率：$\eta = \frac{W}{Q_1} = 1 - \frac{Q_2}{Q_1}$
+    \item 制冷系数：$\varepsilon = \frac{Q_2}{W} = \frac{Q_2}{Q_1 - Q_2}$
+    \item 熵的统计意义：$S = k\ln \Omega$
+    \item 熵变（热力学）：$\mathrm{d}S = \frac{\mathrm{d}Q}{T}$（可逆过程）
+    \item 熵差计算：
+        $$\Delta S = \frac{m}{M} C_{V,\text{m}} \ln\frac{T_2}{T_1} + \frac{m}{M} R \ln\frac{V_2}{V_1}$$
+        $$\Delta S = \frac{m}{M} C_{p,\text{m}} \ln\frac{T_2}{T_1} - \frac{m}{M} R \ln\frac{p_2}{p_1}$$
+        可逆绝热过程：$\Delta S = 0$
+\end{itemize}
+
+\subsubsection{例题参考}
+3、5、6、13、18、20（热学基础）；4、5、7、8、9、10、13、15、17、19、21（热力学过程）——《大学物理学(第五版)》王少杰
+
+% ======================== 第二章：光学 ========================
+\section{光学}
+\subsection{半波损失}
+\begin{itemize}
+    \item 核心定义：光从光疏介质射向光密介质的反射光，相位突变$\pi$（光程突变$\lambda/2$）。
+    \item 产生条件：仅反射光、光疏→光密介质、入射角非零。
+    \item 干涉影响：单束半波损失会反转干涉加强/减弱条件。
+    \item 应用场景：薄膜干涉、劈尖干涉、牛顿环。
+\end{itemize}
+
+\subsection{光的干涉}
+\subsubsection{杨氏双缝干涉}
+\begin{itemize}
+    \item 光程差：$\delta = r_2 - r_1 \approx \frac{xd}{D}$（$d$为缝间距，$D$为缝到屏距离）
+    \item 明纹条件：$\frac{xd}{D} = \pm k\lambda$ → $x = \pm k \frac{D\lambda}{d}$（$k=0,1,2,\dots$）
+    \item 暗纹条件：$\frac{xd}{D} = \pm (2k-1)\frac{\lambda}{2}$ → $x = \pm (2k-1)\frac{D\lambda}{2d}$（$k=1,2,3,\dots$）
+    \item 条纹间距：$\Delta x = \frac{D\lambda}{d}$
+\end{itemize}
+
+\subsubsection{薄膜干涉}
+\paragraph{等倾干涉}
+光程差：$\delta = 2e \sqrt{n_2^2 - n_1^2 \sin^2 i} + \frac{\lambda}{2}$（$n_1 < n_2$，半波损失修正）
+\begin{itemize}
+    \item 明纹：$2e \sqrt{n_2^2 - n_1^2 \sin^2 i} = (k - \frac{1}{2})\lambda$（$k=1,2,3,\dots$）
+    \item 暗纹：$2e \sqrt{n_2^2 - n_1^2 \sin^2 i} = k\lambda$（$k=0,1,2,\dots$）
+\end{itemize}
+
+\paragraph{等厚干涉（劈尖）}
+空气劈尖光程差：$\delta = 2e + \frac{\lambda}{2}$
+\begin{itemize}
+    \item 明纹：$2e = (2k-1)\frac{\lambda}{2}$（$k=1,2,3,\dots$）
+    \item 暗纹：$2e = k\lambda$（$k=0,1,2,\dots$），棱边为零级暗纹
+    \item 条纹间距：$L = \frac{\lambda}{2\theta}$（$\theta$为劈尖角）
+\end{itemize}
+
+\paragraph{牛顿环}
+光程差：$\delta = 2e + \frac{\lambda}{2}$，几何关系：$e \approx \frac{r^2}{2R}$（$R$为透镜曲率半径）
+\begin{itemize}
+    \item 明环半径：$r_k = \sqrt{(k - \frac{1}{2})\lambda R}$（$k=1,2,3,\dots$）
+    \item 暗环半径：$r_k = \sqrt{k\lambda R}$（$k=0,1,2,\dots$）
+    \item 曲率半径测量：$R=\frac{d_{k+m}^{2}-d_{k}^{2}}{4 m \lambda}$（$d$为暗环直径）
+\end{itemize}
+
+\subsection{光的衍射}
+\subsubsection{单缝衍射（夫琅禾费）}
+\begin{itemize}
+    \item 最大光程差：$\Delta = a\sin\theta$（$a$为缝宽，$\theta$为衍射角）
+    \item 暗纹条件：$a\sin\theta = \pm k\lambda$（$k=1,2,3,\dots$）
+    \item 明纹条件：$a\sin\theta = \pm (2k+1)\frac{\lambda}{2}$（$k=1,2,3,\dots$）
+    \item 中央明纹半角宽度：$\theta_0 \approx \frac{\lambda}{a}$，线宽度：$\Delta x_0 = 2f\frac{\lambda}{a}$（$f$为透镜焦距）
+    \item 相对光强：$\frac{I}{I_0} = \left( \frac{\sin\alpha}{\alpha} \right)^2$（$\alpha = \frac{\pi a\sin\theta}{\lambda}$）
+\end{itemize}
+
+\subsubsection{光栅衍射}
+\begin{itemize}
+    \item 光栅常量：$d = a + b$（$a$为缝宽，$b$为刻痕宽）
+    \item 光栅方程（主极大）：$d\sin\varphi = \pm k\lambda$（$k=0,1,2,\dots$）
+    \item 缺级条件：$k = \pm \frac{d}{a}k'$（$k'=1,2,3,\dots$，同时满足单缝暗纹）
+\end{itemize}
+
+\subsubsection{光学仪器分辨本领}
+\begin{itemize}
+    \item 瑞利判据：最小分辨角$\delta\theta = 1.22 \frac{\lambda}{d}$（$d$为孔径）
+    \item 分辨本领：$R = \frac{1}{\delta\theta} = \frac{d}{1.22\lambda}$
+\end{itemize}
+
+\subsection{光的偏振}
+\subsubsection{马吕斯定律}
+\begin{itemize}
+    \item 自然光通过偏振片：$I_1 = \frac{I_0}{2}$
+    \item 线偏振光通过检偏器：$I_2 = I_1 \cos^2\alpha$（$\alpha$为偏振方向夹角）
+\end{itemize}
+
+\subsubsection{布儒斯特定律}
+\begin{itemize}
+    \item 起偏振角：$\tan i_0 = \frac{n_2}{n_1}$（此时反射光为线偏振光，$i_0 + r = 90^\circ$）
+\end{itemize}
+
+\subsubsection{波片}
+\begin{itemize}
+    \item 相位差：$\Delta\varphi = \frac{2\pi}{\lambda}(n_o - n_e)d$（$n_o$、$n_e$为o光/e光折射率）
+    \item 四分之一波片：$\Delta\varphi = (2k+1)\frac{\pi}{2}$，光程差$\delta = (2k+1)\frac{\lambda}{4}$
+    \item 半波片：$\Delta\varphi = (2k+1)\pi$，光程差$\delta = (2k+1)\frac{\lambda}{2}$，振动面旋转$2\alpha$
+\end{itemize}
+
+\subsubsection{例题参考}
+干涉：8、9、11、13、16、18、19、20；衍射：23、24、25、26、28；偏振：32、33、36、38、40——《大学物理学(第五版)》王少杰
+
+% ======================== 第三章：量子物理 ========================
+\section{量子物理}
+\subsection{早期量子论}
+\subsubsection{黑体辐射}
+\begin{itemize}
+    \item 斯特藩-玻尔兹曼定律：$M_0(T) = \sigma_0 T^4$
+    \item 维恩位移定律：$\lambda_m T = b$
+\end{itemize}
+
+\subsubsection{光电效应}
+\begin{itemize}
+    \item 光子能量：$\varepsilon = h\nu$
+    \item 爱因斯坦方程：$h\nu = \frac{1}{2}mv_m^2 + A_0$（$A_0$为逸出功）
+    \item 光子动量：$p = \frac{h\nu}{c} = \frac{h}{\lambda}$
+\end{itemize}
+
+\subsubsection{康普顿效应}
+\begin{itemize}
+    \item 波长改变量：$\Delta\lambda = \lambda' - \lambda = \frac{h}{m_0 c}(1-\cos\theta) = \frac{2h}{m_0 c}\sin^2\frac{\theta}{2}$
+    \item 康普顿波长：$\lambda_C = \frac{h}{m_0 c}$
+\end{itemize}
+
+\subsubsection{玻尔氢原子理论}
+\begin{itemize}
+    \item 角动量量子化：$L = mvr = n\hbar$（$n=1,2,3,\dots$，$\hbar = \frac{h}{2\pi}$）
+    \item 轨道半径：$r_n = a_0 n^2$（$a_0$为玻尔半径）
+    \item 能级：$E_n = -\frac{13.6}{n^2}\text{eV}$（$n=1$时$E_1=-13.6\text{eV}$）
+\end{itemize}
+
+\subsubsection{德布罗意假设}
+\begin{itemize}
+    \item 物质波波长：$\lambda = \frac{h}{p} = \frac{h}{mv}$
+    \item 非相对论近似：$\lambda = \frac{h}{\sqrt{2m_0 E_k}}$（$E_k$为动能）
+    \item 电子波长（加速电压$U$）：$\lambda = \frac{1.226}{\sqrt{U}} \text{nm}$
+\end{itemize}
+
+\subsection{量子力学基础}
+\subsubsection{波函数}
+\begin{itemize}
+    \item 概率密度：$w = |\Psi|^2 = \Psi^* \cdot \Psi$
+    \item 归一化条件：$\iiint_{-\infty}^{+\infty} |\Psi|^2 \mathrm{d}x\mathrm{d}y\mathrm{d}z = 1$
+    \item 波函数条件：单值、有限、连续
+\end{itemize}
+
+\subsubsection{不确定关系}
+\begin{itemize}
+    \item 坐标-动量：$\Delta x \Delta p_x \ge \frac{\hbar}{2}$
+    \item 时间-能量：$\Delta E \cdot \Delta t \ge \frac{\hbar}{2}$
+\end{itemize}
+
+\subsubsection{一维无限深方势阱}
+\begin{itemize}
+    \item 波函数：$\varPsi_n = \sqrt{\frac{2}{a}}\sin{\frac{n\pi x}{a}}$（$a$为势阱宽度）
+    \item 能量本征值：$E_n = \frac{n^2 h^2}{8ma^2} = \frac{n^2 \pi^2 \hbar^2}{2ma^2}$（$n=1,2,3,\dots$）
+\end{itemize}
+
+\subsubsection{线性谐振子}
+\begin{itemize}
+    \item 能量本征值：$E_n = (n + \frac{1}{2})\hbar\omega$（$n=0,1,2,\dots$）
+    \item 基态能量：$E_0 = \frac{1}{2}\hbar\omega$
+\end{itemize}
+
+\subsubsection{氢原子量子数}
+\begin{itemize}
+    \item 主量子数：$n=1,2,3,\dots$（决定能量）
+    \item 角量子数：$l=0,1,\dots,n-1$，角动量$L = \sqrt{l(l+1)}\hbar$
+    \item 磁量子数：$m_l=0,\pm1,\dots,\pm l$，$L_z = m_l\hbar$
+    \item 自旋量子数：$s=\frac{1}{2}$，自旋磁量子数$m_s=\pm\frac{1}{2}$，$S_z = \pm\frac{1}{2}\hbar$
+\end{itemize}
+
+\subsubsection{例题参考}
+早期量子论：2、4、7、8、12、14、17、18；量子力学：19、20、21、22、26、27——《大学物理学(第五版)》王少杰
+
+\end{document}
